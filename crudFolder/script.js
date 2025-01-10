@@ -8,6 +8,7 @@ let cross = document.querySelector('#cross')
 let nameBar = document.querySelector('#crud-name')
 let emailBar = document.querySelector('#crud-email')
 let rollBar = document.querySelector('#roll-no')
+let wtrmrkCont = document.querySelector('#wtrmrk-cont')
 
 
 let submitEditedData = document.querySelector('#edit_Data')
@@ -42,6 +43,9 @@ cross.addEventListener('click', () => {
   }, 2000);
 })
 submitData.addEventListener('click', () => {
+
+  wtrmrkCont.style.display = 'none'
+
   if (rollBar.value.length !== "" && rollBar.value.length === 5) {
     crudFormCont.style.display = 'none';
     resultPage.style.filter = "blur(0px)";
