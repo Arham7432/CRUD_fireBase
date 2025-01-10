@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="https://supabase.com/favicon/apple-icon-60x60.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Manage.io • Home</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&family=Host+Grotesk:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Unbounded:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: unbounded;
+            text-decoration: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        ::-moz-selection {
+            color: rgb(51 51 51);
+            background: rgb(57, 126, 154);
+        }
+
+        ::selection {
+            color: rgb(51 51 51);
+            background: skyblue;
+        }
+
+        *::-webkit-scrollbar {
+            width: 2px;
+            background-color: #0f0f0f !important;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: white !important;
+        }
+
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            color: white;
+            background-color: #121212;
+        }
+
+        main {
+            width: 100%;
+            height: 100%;
+        }
+
+        #waterMark-section {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background-repeat: no-repeat;
+            background-color: cover;
+        }
+
+        #waterMark-section img {
+            opacity: 0.2;
+            width: 300px;
+        }
+
+        #waterMark-section h2 {
+            font-weight: 400;
+            font-size: 20px;
+            color: #808080b1;
+
+        }
+
+        div:where(.swal2-icon).swal2-warning,
+        div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line],
+        div:where(.swal2-icon).swal2-error {
+            color: crimson;
+            border-color: crimson;
+        }
+
+        div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line] {
+            background: crimson;
+        }
+
+        nav {
+            width: 100%;
+            padding: 20px 40px;
+            position: fixed;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .logo span {
+            font-weight: 300;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 30px;
+            margin-right: 8px;
+        }
+
+        nav #logOut {
+            background-color: hsl(0deg 0% 14.12%);
+            color: lavender;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-size: 14px;
+            border: 1px solid hsl(0deg 0% 21.18%);
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.4s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        #displayName {
+            text-transform: capitalize;
+        }
+
+        #logOut:hover {
+            border: 1px solid rgb(103 59 57);
+            background-color: #302626;
+            color: rgb(236 146 142)
+        }
+
+        abbr {
+            display: flex;
+            gap: 10px;
+        }
+
+        #hero {
+            height: 100%;
+            width: 100%;
+        }
+
+        .crud-form-cont {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* position: absolute; */
+        }
+
+        .crud-form {
+            display: flex;
+            flex-direction: column;
+            width: auto;
+            /* background-color: #212121; */
+            border-radius: 12px;
+            padding: 20px;
+            width: 50%;
+            z-index: 10;
+        }
+
+        #form-heading {
+            position: relative;
+            width: 400px;
+            margin: auto;
+            margin-bottom: 20px;
+            font-family: host grotesk;
+            color: rgb(232 232 232);
+            display: flex;
+            /* justify-content: space-between; */
+            align-items: center;
+        }
+
+        #cross {
+            position: absolute;
+            right: -3%;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        #cross i {
+            font-weight: 500;
+            font-size: 20px;
+            color: rgb(166 166 166);
+        }
+
+        #cross:hover {
+            color: white;
+            background-color: #262626;
+        }
+
+        #cross:hover i {
+            color: white;
+        }
+
+
+        #cross:active {
+            color: white;
+            background-color: rgb(90 90 90);
+        }
+
+        #crud-name,
+        #crud-email,
+        #roll-no {
+            font-family: DM Sans;
+            font-size: 20px;
+            /* color: ghostwhite; */
+            color: #eef0ff;
+            padding: 10px 4px;
+            background: none;
+            outline: none;
+            border: none;
+            width: 400px;
+            margin: auto;
+            border-bottom: 1px solid gray;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        #crud-name {
+            text-transform: capitalize;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* input[type="number"] {
+            -moz-appearance: textfield;
+        } */
+
+        #add_Data,
+        #edit_Data {
+            width: 400px;
+            margin: auto;
+            padding: 10px;
+            font-weight: 700;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            background-color: rgb(0 98 57);
+            border: 1px solid rgb(19 128 82);
+            color: lavenderblush;
+            transition: all 0.8s;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            font-family: dm sans;
+            font-size: 20px;
+            background-color: #7cacf8;
+            color: #271e49;
+        }
+
+        #add_Data:hover,
+        #edit_Data:hover {
+            background-color: #d2e3fc;
+            color: #271e49;
+        }
+
+        #add_Data:active,
+        #edit_Data:active {
+            background-color: #e8e8e8;
+            color: #271e49;
+        }
+
+        .result-cont {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 80%;
+            height: 70%;
+            background-color: rgb(33 33 33);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .ed-cont {
+            width: 100%;
+            height: 100%;
+            padding: 0px 20px;
+            overflow-y: auto;
+            padding-bottom: 90px;
+        }
+
+        .each-data {
+            border-radius: 8px;
+            width: 100%;
+            padding: 20px 10px;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            background: rgb(27 27 27);
+            margin: 7px 0px;
+        }
+
+        .each-data>* {
+            font-family: DM Sans;
+            font-size: 15px;
+            font-weight: 600;
+            color: #a6a6a6;
+        }
+
+        .line {
+            width: 35px;
+            rotate: 90deg;
+            padding: 0.1px;
+            background-color: #a6a6a665;
+        }
+
+        .name {
+            text-transform: capitalize;
+        }
+
+        .name,
+        .email,
+        .roll-no {
+            text-align: center;
+            width: 80px;
+        }
+
+        .none {
+            display: none;
+        }
+
+        #header-data {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            color: rgb(232 232 232);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border-bottom: 0.1px solid #575c63;
+        }
+
+
+        #header-data h2 {
+            font-family: montserrat;
+            font-weight: 600;
+        }
+
+        .new-data-btn {
+            font-family: DM Sans;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 32px;
+            border: none;
+            outline: none;
+            position: absolute;
+            right: 3%;
+            background-color: transparent;
+            color: #a8c7fa;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            gap: 4px;
+        }
+
+        .new-data-btn:hover {
+            background-color: #2b2e34;
+        }
+
+        .new-data-btn:active {
+            background-color: #33363e;
+        }
+
+        .new-data-btn img {
+            width: 20px;
+        }
+
+        .delete,
+        .edit {
+            background-color: #7cacf8;
+            color: #271e49;
+            padding: 6px 0px;
+            border-radius: 5px;
+            width: 60px;
+            display: flex;
+            justify-content: center;
+            cursor: pointer;
+            align-items: center;
+        }
+
+        .delete {
+            background-color: #d32f2f;
+            color: white;
+        }
+
+        .delete:hover {
+            background-color: #ba2929;
+            color: white;
+
+        }
+
+        .delete:active {
+            background-color: #a02424;
+            color: white;
+        }
+
+
+        .edit:hover {
+            background-color: #d2e3fc;
+            color: #271e49;
+        }
+
+        .edit:active {
+            background-color: #e8e8e8;
+            color: #271e49;
+        }
+
+        .shield {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            z-index: 1;
+            background-color: black;
+            opacity: 0.5;
+        }
+
+        .dark-swal {
+            background-color: #222;
+            color: #fff;
+            font-family: syne;
+            border-radius: 10px;
+        }
+
+        .swal2-popup {
+            font-family: 'syne' !important;
+        }
+
+
+
+        @media screen and (min-width:1800px) {
+            nav {
+                padding: 20px 8%;
+            }
+
+            #waterMark-section img {
+                width: 500px;
+            }
+
+            #waterMark-section h2 {
+                font-size: 35px;
+            }
+
+
+        }
+
+        @media screen and (max-width:600px) {
+
+            .logo {
+                font-size: 13px;
+            }
+
+            .logo img {
+                width: 25px;
+            }
+
+            nav {
+                padding: 20px 10px;
+                align-items: center;
+            }
+
+            nav #logOut {
+                padding: 5px 10px;
+                font-size: 11px;
+                font-weight: 300;
+            }
+
+
+            #swal2-title {
+                font-size: 22px;
+            }
+
+            #swal2-html-container {
+                font-size: 15px;
+            }
+
+            .swal2-confirm {
+                width: 70px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <nav>
+            <h3 class="logo"><img src="assets/logo.png" alt="">Manage.<span>io</span></h3>
+
+            <div class="dets">
+                <button id="logOut">
+                    <abbr title="Log Out">
+                        <div id="displayName">Arhum Hussain</div><i class="ri-logout-box-r-line"></i>
+                    </abbr>
+                </button>
+
+            </div>
+        </nav>
+
+        <div id="hero">
+            <div id="crud-form-cont" class="crud-form-cont none">
+                <div id="crud-form" class="crud-form">
+                    <h1 id="form-heading">
+                        Student Details.
+                        <span id="cross"><i class="ri-close-large-line"></i></span>
+                    </h1>
+                    <input type="text" id="crud-name" placeholder="Input Name" autocomplete="off" spellcheck="false">
+                    <input type="email" name="crud-email" id="crud-email" placeholder="Input Email" autocomplete="off"
+                        spellcheck="false">
+                    <input type="number" id="roll-no" placeholder="Enter 5-digit Roll No">
+                    <button type="submit" id="add_Data" class="add_Data">Add Data</button>
+                    <button type="submit" id="edit_Data" class="edit_Data">Edit Data</button>
+                </div>
+            </div>
+
+            <div id="result-cont" class="result-cont">
+                <div id="shield" class="shield none"></div>
+                <div class="container">
+                    <div id="header-data">
+                        <h2>Student Registry</h2>
+                        <button id="new-data-btn" class="new-data-btn"><img src="assets/plus.svg">Add Data</button>
+                    </div>
+
+                    <div id="each-data-cont" class="ed-cont"></div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+
+    </main>
+
+
+    <!-- <script type="module" src="firebaseauth.js"></script> -->
+    <script type="module" src="script.js"></script>
+
+</body>
+
+</html>
